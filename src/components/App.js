@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Login from "./Login";
+import "../styles/App.css";
 import Home from "./Home";
 
 class App extends Component {
@@ -8,23 +9,23 @@ class App extends Component {
     // state to maintain username and password and logged in status and current form data as well
     this.state = {
       isLoggedIn: false,
-      userList: [
-        { username: "admin", password: "admin" },
-        { username: "test", password: "test123" },
-      ],
-      input: {
-        username: "",
-        password: "",
-      },
     };
   }
+
+  setIsLoggedInToTrue = () => {
+    this.setState({ isLoggedIn: true });
+  };
+
+  setIsLoggedInToFalse = () => {
+    this.setState({ isLoggedIn: false });
+  };
 
   render() {
     const { isLoggedIn } = this.state;
     return (
       <div>
-        {!isLoggedIn && <Login />}
-        {isLoggedIn && <Home />}
+        {!isLoggedIn && <Login setLoggedIn={this.setIsLoggedInToTrue} />}
+        {isLoggedIn && <Home setLoggedIn={this.setIsLoggedInToFalse} />}
       </div>
     );
   }
