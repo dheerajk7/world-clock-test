@@ -12,16 +12,19 @@ class App extends Component {
     };
   }
 
+  // login user by changing isLoggedIn to true
   setIsLoggedInToTrue = () => {
     this.setState({ isLoggedIn: true });
   };
 
+  // logout user by changing isLoggedIn to false
   setIsLoggedInToFalse = () => {
     this.setState({ isLoggedIn: false });
   };
 
   render() {
     const { isLoggedIn } = this.state;
+    // rendering component of the basis of user login status
     return (
       <div>
         {!isLoggedIn && <Login setLoggedIn={this.setIsLoggedInToTrue} />}

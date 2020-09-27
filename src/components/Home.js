@@ -5,20 +5,24 @@ class Home extends Component {
     super(props);
     this.intervalId = "";
     this.state = {
+      // maintaing current time we have to show for united state
       currentTime: {
         hours: 0,
         minutes: 0,
         seconds: 0,
       },
+      // difference for india and london with respect to united state
       difference: {
         india: 0,
         london: 0,
       },
+
       formInput: {
         USTime: "",
         indiaDifference: "",
         londonDifference: "",
       },
+      // error message
       message: {
         showErrorMessage: false,
         detail: "",
@@ -26,6 +30,7 @@ class Home extends Component {
     };
   }
 
+  // on mounting setting united state time to device time
   componentDidMount() {
     let date = new Date();
     this.setState({
@@ -36,15 +41,18 @@ class Home extends Component {
       },
     });
 
+    // function to call after every 5 sec to update time
     this.IntervalId = setInterval(() => {
       this.updateTime();
     }, 5000);
   }
 
+  // on unmounting clear that interval which is updating time
   componentWillUnmount() {
     clearInterval(this.interval);
   }
 
+  // increasing current time with 5 seconds
   updateTime = () => {
     let { hours, minutes, seconds } = this.state.currentTime;
     seconds = seconds + 5;
@@ -59,6 +67,7 @@ class Home extends Component {
         }
       }
     }
+    // setting current time in state
     this.setState({
       currentTime: {
         hours: hours,
@@ -68,6 +77,7 @@ class Home extends Component {
     });
   };
 
+  // checking for valid time in formInput of state to set new time of United state
   handleCheckForValidTime = () => {
     let USTime = this.state.formInput.USTime;
     let timeArray = USTime.split(":");
@@ -92,6 +102,7 @@ class Home extends Component {
 
   handleTimeSet = () => {
     let validationStatus = this.handleCheckForValidTime();
+    // if time is not valid then showing error message
     if (validationStatus === false) {
       this.setState({
         message: {
@@ -100,6 +111,7 @@ class Home extends Component {
         },
       });
     } else {
+      // setting current time if time is valid
       const { hours, minutes, seconds } = validationStatus;
       this.setState({
         currentTime: {
@@ -119,6 +131,7 @@ class Home extends Component {
     }
   };
 
+  // handle form input change
   handleChange = (e) => {
     let label = e.target.id;
     let value = e.target.value;
@@ -147,6 +160,7 @@ class Home extends Component {
     }
   };
 
+  // check for valid hours when setting time for london and india
   checkForValidHours = (time) => {
     time = parseInt(time);
     if (isNaN(time) || time < -24 || time > 24) {
@@ -155,6 +169,7 @@ class Home extends Component {
     return true;
   };
 
+  // setting time difference for london in state
   handleSetDifferenceLondon = () => {
     const { londonDifference } = this.state.formInput;
     let status = this.checkForValidHours(londonDifference);
@@ -180,6 +195,7 @@ class Home extends Component {
     }
   };
 
+  // setting time difference for india in state
   handleSetDifferenceIndia = () => {
     const { indiaDifference } = this.state.formInput;
     let status = this.checkForValidHours(indiaDifference);
@@ -205,10 +221,13 @@ class Home extends Component {
     }
   };
 
+  // handle logout
+  // changing isLoggedIn attribute to App state to logout user
   handleLogout = () => {
     this.props.setLoggedIn();
   };
 
+  // generating time string
   getTimeString = (hours, minutes, seconds) => {
     if (hours < 10) {
       hours = "0" + hours;
@@ -223,6 +242,7 @@ class Home extends Component {
     return hours + ":" + minutes + ":" + seconds;
   };
 
+  // calculating time of india from united state time and india difference
   getIndiaTime = () => {
     const { india } = this.state.difference;
     const { hours, minutes, seconds } = this.state.currentTime;
@@ -231,6 +251,7 @@ class Home extends Component {
     return indiaString;
   };
 
+  // calculating time of london from united state time and london difference
   getLondonTime = () => {
     const { london } = this.state.difference;
     const { hours, minutes, seconds } = this.state.currentTime;
@@ -243,7 +264,9 @@ class Home extends Component {
     const { hours, minutes, seconds } = this.state.currentTime;
     const { indiaDifference, londonDifference, USTime } = this.state.formInput;
     let time = this.getTimeString(hours, minutes, seconds);
+    // calculating india time
     let indiaTime = this.getIndiaTime();
+    // calculating london time
     let londonTime = this.getLondonTime();
     const { showErrorMessage, detail } = this.state.message;
     return (

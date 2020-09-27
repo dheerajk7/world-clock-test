@@ -4,10 +4,12 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      // default users in our app
       userList: [
         { username: "admin", password: "admin" },
         { username: "test", password: "test123" },
       ],
+      // maintaining form input
       formInput: {
         username: "",
         password: "",
@@ -16,6 +18,7 @@ class Login extends Component {
     };
   }
 
+  // changing value in state on changing input in login form
   handleChange = (e) => {
     let label = e.target.id;
     let value = e.target.value;
@@ -33,6 +36,7 @@ class Login extends Component {
     }
   };
 
+  // login user after checking username and password
   handleLogIn = (e) => {
     e.preventDefault();
     const { userList } = this.state;
@@ -40,6 +44,7 @@ class Login extends Component {
     for (let user of userList) {
       if (user.username === username.toLowerCase()) {
         if (user.password === password) {
+          // calling props to set isLoggedIn to true
           this.props.setLoggedIn();
           return;
         }
@@ -48,6 +53,7 @@ class Login extends Component {
     this.setState({ showErrorMesssage: true });
   };
 
+  // reset input field of login form
   handleResetButton = () => {
     this.setState({
       formInput: {
@@ -58,6 +64,7 @@ class Login extends Component {
     });
   };
 
+  // hiding error message on unmounting
   componentWillUnmount() {
     this.setState({ showErrorMesssage: false });
   }
