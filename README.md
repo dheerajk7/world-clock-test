@@ -2,6 +2,8 @@
 
 # Preview
 
+Link :- (https://world-clock-intelliswift-test.web.app/)
+
 ## Desktop View
 
 ![preview image](./assets/images/preview_desktop_view.gif)
