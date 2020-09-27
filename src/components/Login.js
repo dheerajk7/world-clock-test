@@ -38,8 +38,7 @@ class Login extends Component {
     const { userList } = this.state;
     const { username, password } = this.state.formInput;
     for (let user of userList) {
-      console.log(user, userList, username, password);
-      if (user.username === username) {
+      if (user.username === username.toLowerCase()) {
         if (user.password === password) {
           this.props.setLoggedIn();
           return;
@@ -49,6 +48,16 @@ class Login extends Component {
     this.setState({ showErrorMesssage: true });
   };
 
+  handleResetButton = () => {
+    this.setState({
+      formInput: {
+        username: "",
+        password: "",
+      },
+      showErrorMesssage: false,
+    });
+  };
+
   componentWillUnmount() {
     this.setState({ showErrorMesssage: false });
   }
@@ -56,7 +65,6 @@ class Login extends Component {
   render() {
     const { showErrorMesssage } = this.state;
     const { username, password } = this.state.formInput;
-    console.log(showErrorMesssage);
     return (
       <div
         className="container-fluid d-flex justify-content-center align-items-center"
@@ -74,22 +82,24 @@ class Login extends Component {
           ></img>
           <form className="w-100 mt-3">
             <div className="form-group">
-              <label for="username">User Name :</label>
+              <label htmlFor="username">User Name :</label>
               <input
                 id="username"
                 type="text"
                 className="form-control"
                 value={username}
+                placeholder="User Name"
                 onChange={this.handleChange}
               />
             </div>
             <div className="form-group">
-              <label for="password">Password :</label>
+              <label htmlFor="password">Password :</label>
               <input
                 id="password"
                 type="password"
                 className="form-control"
                 value={password}
+                placeholder="Password"
                 onChange={this.handleChange}
               />
             </div>
@@ -100,9 +110,14 @@ class Login extends Component {
               Log In
             </button>
           </form>
-          <button className="btn btn-warning w-100 mt-2">Reset</button>
+          <button
+            className="btn btn-warning w-100 mt-2"
+            onClick={this.handleResetButton}
+          >
+            Reset
+          </button>
           {showErrorMesssage && (
-            <h3 className="alert-message">Invalid Username and Password</h3>
+            <h3 className="alert-message">Invalid Username or Password</h3>
           )}
         </div>
       </div>
